@@ -54,14 +54,17 @@ exports.register = async (req, res, next) => {
 			confirmPassword,
 		});
 
+		console.log(user);
 		const token = genToken({
 			id: user.id,
 			role: user.role,
 			firstName: user.firstName,
 			lastName: user.lastName,
 			email: user.email,
+			phone: user.phone,
 			// payload ที่ส่งไปให้กับ token
 		});
+		console.log(token);
 		res.status(201).json({ token });
 	} catch (err) {
 		next(err);
@@ -98,6 +101,7 @@ exports.login = async (req, res, next) => {
 			firstName: user.firstName,
 			lastName: user.lastName,
 			email: user.email,
+			phone: user.phone,
 		});
 		res.status(201).json({ token });
 	} catch (err) {
