@@ -7,11 +7,9 @@ exports.checkout = async (req, res, next) => {
 		const userId = req.user.id;
 		const { courses } = req.body;
 		console.log(courses);
-		// console.log(req.file);
 
-		// console.log(courses);
-		// const parsedCourse = JSON.parse(courses);
-		// console.log(parsedCourse);
+		const parsedCourses = JSON.parse(courses);
+		console.log(parsedCourses);
 
 		let paymentSlip;
 
@@ -19,12 +17,14 @@ exports.checkout = async (req, res, next) => {
 			paymentSlip = await cloudinary.upload(req.file.path);
 		}
 
+		console.log(paymentSlip);
+
 		const order = await Order.create({
 			slipUrl: paymentSlip,
 			userId,
 		});
 
-		for (let item of courses) {
+		for (let item of parsedCourses) {
 			// console.log(item);
 			await OrderItem.create({
 				priceHistory: item.price,
