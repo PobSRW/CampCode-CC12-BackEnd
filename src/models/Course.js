@@ -38,7 +38,7 @@ module.exports = (sequelize, DataTypes) => {
 				name: 'courseId',
 				allowNull: false,
 			},
-			onDelete: 'RESTRICT',
+			onDelete: 'CASCADE',
 		});
 
 		Course.hasMany(db.Review, {
@@ -54,7 +54,7 @@ module.exports = (sequelize, DataTypes) => {
 				name: 'courseId',
 				allowNull: false,
 			},
-			onDelete: 'RESTRICT',
+			onDelete: 'CASCADE',
 		});
 
 		Course.belongsTo(db.Instructor, {

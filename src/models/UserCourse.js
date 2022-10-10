@@ -1,5 +1,5 @@
 module.exports = (sequelize, DataTypes) => {
-	const UserCourse = sequelize.define('UserCourse', {});
+	const UserCourse = sequelize.define('UserCourse', {}, { underscored: true });
 
 	UserCourse.associate = (db) => {
 		UserCourse.belongsTo(db.User, {
@@ -15,7 +15,7 @@ module.exports = (sequelize, DataTypes) => {
 				name: 'courseId',
 				allowNull: false,
 			},
-			onDelete: 'RESTRICT',
+			onDelete: 'CASCADE',
 		});
 	};
 

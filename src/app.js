@@ -24,7 +24,6 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 app.use('/auth', authRoute);
-// app.use('/user', authenticationUser, userRoute);
 app.use('/course', courseRoute);
 app.use('/instructor', instructorRoute);
 app.use('/cart', cartRoute);

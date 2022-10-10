@@ -27,7 +27,7 @@ module.exports = (sequelize, DataTypes) => {
 				name: 'courseId',
 				allowNull: false,
 			},
-			onDelete: 'RESTRICT',
+			onDelete: 'CASCADE',
 		});
 	};
 	return OrderItem;

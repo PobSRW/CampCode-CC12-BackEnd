@@ -1,6 +1,6 @@
 const fs = require('fs');
 const cloudinary = require('../utils/cloudinary');
-const { Course, Instructor } = require('../models');
+const { Course, Instructor, UserCourse } = require('../models');
 
 exports.getCourseItem = async (req, res, next) => {
 	try {
@@ -50,6 +50,35 @@ exports.getCourseById = async (req, res, next) => {
 	}
 };
 
+exports.getUserCourse = async (req, res, next) => {
+	try {
+		const user = req.user;
+		// console.log(user);
+		const userCourse = await UserCourse.findAll({
+			where: { userId: user.id },
+			include: { model: Course },
+		});
+
+		res.status(200).json({ userCourse });
+	} catch (err) {
+		next(err);
+	}
+};
+
+exports.getLearningCourse = async (req, res, next) => {
+	try {
+		const { courseid } = req.params;
+		const userLearningCourse = await UserCourse.findOne({
+			where: { id: courseid },
+			include: { model: Course },
+		});
+
+		res.status(200).json({ userLearningCourse });
+	} catch (err) {
+		next(err);
+	}
+};
+
 exports.createCourse = async (req, res, next) => {
 	try {
 		const { courseName, description, priceCurrent, instructorId } = req.body;
@@ -61,8 +90,16 @@ exports.createCourse = async (req, res, next) => {
 			instructorId,
 		};
 
-		if (req.file) {
-			data.courseImage = await cloudinary.upload(req.file.path);
+		if (req.files.courseImage) {
+			data.courseImage = await cloudinary.upload(req.files.courseImage[0].path);
+		}
+
+		if (req.files.courseVideo) {
+			data.courseVideo = await cloudinary.upload(
+				req.files.courseVideo[0].path,
+				null,
+				'video'
+			);
 		}
 
 		// const newCourse = await Course.create(data);
@@ -102,8 +139,16 @@ exports.updatecourse = async (req, res, next) => {
 			data.instructorId = instructorId;
 		}
 
-		if (req.file) {
-			data.courseImage = await cloudinary.upload(req.file.path);
+		if (req.files.courseImage) {
+			data.courseImage = await cloudinary.upload(req.files.courseImage[0].path);
+		}
+
+		if (req.files.courseVideo) {
+			data.courseVideo = await cloudinary.upload(
+				req.files.courseVideo[0].path,
+				null,
+				'video'
+			);
 		}
 
 		// console.log(data);
