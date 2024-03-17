@@ -44,7 +44,7 @@ module.exports = (sequelize, DataTypes) => {
 				defaultValue: 'User',
 				allowNull: false,
 				valiadate: {
-					isEmail: true,
+					notEmpty: true,
 				},
 			},
 		},
